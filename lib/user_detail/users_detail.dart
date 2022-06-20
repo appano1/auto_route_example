@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/users/users.dart';
 
 class UserDetailPage extends StatelessWidget {
@@ -12,7 +13,10 @@ class UserDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = UsersPage.users[id];
+    final user = context.select(
+      (UsersCubit usersCubit) => usersCubit.state.users[id],
+    );
+
     return Scaffold(
       appBar: AppBar(title: Text(user.name)),
       body: Center(

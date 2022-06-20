@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:test_app/book_detail/book_detail.dart';
 import 'package:test_app/bookmarks/bookmarks.dart';
 import 'package:test_app/books/books.dart';
-import 'package:test_app/main.dart';
+import 'package:test_app/dashboard/dashboard.dart';
+import 'package:test_app/home/home.dart';
 import 'package:test_app/settings/settings.dart';
 import 'package:test_app/user_detail/users_detail.dart';
 import 'package:test_app/users/users.dart';
@@ -18,31 +19,36 @@ part 'routes.gr.dart';
       page: HomePage,
       children: [
         AutoRoute(
-          path: 'book',
-          page: BooksPage,
-          initial: true,
+          path: '',
+          page: DashBoardPage,
+          children: [
+            AutoRoute(
+              path: 'book',
+              page: BooksPage,
+            ),
+            AutoRoute(
+              path: 'user',
+              page: UsersPage,
+            ),
+            AutoRoute(
+              path: 'bookmarks',
+              page: BookmarksPage,
+            ),
+            AutoRoute(
+              path: 'settings',
+              page: SettingsPage,
+            ),
+          ],
         ),
         AutoRoute(
-          path: 'user',
-          page: UsersPage,
+          path: 'book/:id',
+          page: BookDetailPage,
         ),
         AutoRoute(
-          path: 'bookmarks',
-          page: BookmarksPage,
-        ),
-        AutoRoute(
-          path: 'settings',
-          page: SettingsPage,
+          path: 'user/:id',
+          page: UserDetailPage,
         ),
       ],
-    ),
-    AutoRoute(
-      path: '/book/:id',
-      page: BookDetailPage,
-    ),
-    AutoRoute(
-      path: '/user/:id',
-      page: UserDetailPage,
     ),
   ],
 )

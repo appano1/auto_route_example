@@ -21,6 +21,10 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
     },
+    DashBoardRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const DashBoardPage());
+    },
     BookDetailRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<BookDetailRouteArgs>(
@@ -58,20 +62,24 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(HomeRoute.name, path: '/', children: [
-          RouteConfig('#redirect',
+          RouteConfig(DashBoardRoute.name,
               path: '',
               parent: HomeRoute.name,
-              redirectTo: 'book',
-              fullMatch: true),
-          RouteConfig(BooksRoute.name, path: 'book', parent: HomeRoute.name),
-          RouteConfig(UsersRoute.name, path: 'user', parent: HomeRoute.name),
-          RouteConfig(BookmarksRoute.name,
-              path: 'bookmarks', parent: HomeRoute.name),
-          RouteConfig(SettingsRoute.name,
-              path: 'settings', parent: HomeRoute.name)
-        ]),
-        RouteConfig(BookDetailRoute.name, path: '/book/:id'),
-        RouteConfig(UserDetailRoute.name, path: '/user/:id')
+              children: [
+                RouteConfig(BooksRoute.name,
+                    path: 'book', parent: DashBoardRoute.name),
+                RouteConfig(UsersRoute.name,
+                    path: 'user', parent: DashBoardRoute.name),
+                RouteConfig(BookmarksRoute.name,
+                    path: 'bookmarks', parent: DashBoardRoute.name),
+                RouteConfig(SettingsRoute.name,
+                    path: 'settings', parent: DashBoardRoute.name)
+              ]),
+          RouteConfig(BookDetailRoute.name,
+              path: 'book/:id', parent: HomeRoute.name),
+          RouteConfig(UserDetailRoute.name,
+              path: 'user/:id', parent: HomeRoute.name)
+        ])
       ];
 }
 
@@ -85,11 +93,20 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [DashBoardPage]
+class DashBoardRoute extends PageRouteInfo<void> {
+  const DashBoardRoute({List<PageRouteInfo>? children})
+      : super(DashBoardRoute.name, path: '', initialChildren: children);
+
+  static const String name = 'DashBoardRoute';
+}
+
+/// generated route for
 /// [BookDetailPage]
 class BookDetailRoute extends PageRouteInfo<BookDetailRouteArgs> {
   BookDetailRoute({Key? key, required int id})
       : super(BookDetailRoute.name,
-            path: '/book/:id',
+            path: 'book/:id',
             args: BookDetailRouteArgs(key: key, id: id),
             rawPathParams: {'id': id});
 
@@ -114,7 +131,7 @@ class BookDetailRouteArgs {
 class UserDetailRoute extends PageRouteInfo<UserDetailRouteArgs> {
   UserDetailRoute({Key? key, required int id})
       : super(UserDetailRoute.name,
-            path: '/user/:id',
+            path: 'user/:id',
             args: UserDetailRouteArgs(key: key, id: id),
             rawPathParams: {'id': id});
 

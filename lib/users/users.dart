@@ -1,34 +1,21 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/routes.dart';
-import 'package:test_app/user_detail/users_detail.dart';
+import 'package:test_app/users/users.dart';
 
-class User extends Equatable {
-  const User({
-    required this.name,
-    required this.age,
-  });
-
-  final String name;
-  final int age;
-
-  @override
-  List<Object> get props => [name, age];
-}
+export 'cubit/users_cubit.dart';
+export 'models/user.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
 
-  static List<User> get users => const [
-        User(name: 'John', age: 30),
-        User(name: 'Jane', age: 25),
-        User(name: 'Mary', age: 21),
-        User(name: 'Bob', age: 27),
-      ];
-
   @override
   Widget build(BuildContext context) {
+    final users = context.select(
+      (UsersCubit usersCubit) => usersCubit.state.users,
+    );
+
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {

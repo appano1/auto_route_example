@@ -1,58 +1,23 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:test_app/book_detail/book_detail.dart';
 import 'package:test_app/bookmarks/bookmarks.dart';
+import 'package:test_app/books/cubit/books_cubit.dart';
 import 'package:test_app/routes.dart';
 
-class Book extends Equatable {
-  const Book({
-    required this.id,
-    required this.title,
-    required this.author,
-    required this.description,
-  });
-
-  final int id;
-  final String title;
-  final String author;
-  final String description;
-
-  @override
-  List<Object> get props => [id, title, author, description];
-}
+export 'cubit/books_cubit.dart';
+export 'models/book.dart';
 
 class BooksPage extends StatelessWidget {
   const BooksPage({super.key});
-
-  static List<Book> get books => const [
-        Book(
-          id: 0,
-          title: 'The C Programming Language',
-          author: 'Dennis Ritchie',
-          description: 'The C Programming Language, 4th Edition',
-        ),
-        Book(
-          id: 1,
-          title: 'The C++ Programming Language',
-          author: 'Bjarne Stroustrup',
-          description: 'The C++ Programming Language, 3rd Edition',
-        ),
-        Book(
-          id: 2,
-          title: 'The C# Programming Language',
-          author: 'Microsoft',
-          description: 'The C# Programming Language, 2nd Edition',
-        ),
-      ];
 
   @override
   Widget build(BuildContext context) {
     final bookmarks = context.select(
       (BookmarksCubit element) => element.state.bookmarks,
     );
+    final books = context.select((BooksCubit cubit) => cubit.state.books);
     return ListView.builder(
       itemCount: books.length,
       itemBuilder: (context, index) {

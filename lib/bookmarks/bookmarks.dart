@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/book_detail/book_detail.dart';
 import 'package:test_app/books/books.dart';
 import 'package:test_app/routes.dart';
 
@@ -14,13 +13,13 @@ class BookmarksCubit extends Cubit<BookmarksState> {
   }
 
   void add(int id) {
-    final index = BooksPage.books.indexWhere((element) => element.id == id);
-    if (index != -1) return emit(BookmarksState([...state.bookmarks, id]));
+    if (state.bookmarks.contains(id)) return;
+
+    return emit(BookmarksState([...state.bookmarks, id]));
   }
 
   void remove(int id) {
-    final index = BooksPage.books.indexWhere((element) => element.id == id);
-    if (index == -1) return;
+    if (!state.bookmarks.contains(id)) return;
 
     return emit(
       BookmarksState(
@@ -44,12 +43,13 @@ class BookmarksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final books = context.select(
+      (BooksCubit booksCubit) => booksCubit.state.books,
+    );
     final bookmarks = context.select(
       (BookmarksCubit element) => element.state.bookmarks,
     );
-    final markedBooks = [
-      for (final id in bookmarks) BooksPage.books[id],
-    ];
+    final markedBooks = [for (final id in bookmarks) books[id]];
 
     return ListView.builder(
       itemCount: markedBooks.length,
