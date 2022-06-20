@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:test_app/routes.dart';
 import 'package:test_app/user_detail/users_detail.dart';
 
 class User extends Equatable {
@@ -34,12 +36,7 @@ class UsersPage extends StatelessWidget {
         return ListTile(
           title: Text(user.name),
           subtitle: Text(user.age.toString()),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (context) => UsersDetailPage(id: index),
-            ),
-          ),
+          onTap: () => context.router.push(UserDetailRoute(id: index)),
         );
       },
     );

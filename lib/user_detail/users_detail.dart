@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/users/users.dart';
 
-class UsersDetailPage extends StatelessWidget {
-  const UsersDetailPage({
+class UserDetailPage extends StatelessWidget {
+  const UserDetailPage({
     super.key,
-    required this.id,
+    @pathParam required this.id,
   });
 
   final int id;

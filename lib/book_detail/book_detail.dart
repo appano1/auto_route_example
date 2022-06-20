@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/books/books.dart';
 import 'package:test_app/constants.dart';
 
 class BookDetailPage extends StatelessWidget {
-  const BookDetailPage({super.key, required this.id});
+  const BookDetailPage({
+    super.key,
+    @pathParam required this.id,
+  });
 
   final int id;
 

@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/book_detail/book_detail.dart';
 import 'package:test_app/books/books.dart';
+import 'package:test_app/routes.dart';
 
 class BookmarksCubit extends Cubit<BookmarksState> {
   BookmarksCubit() : super(const BookmarksState());
@@ -60,14 +62,7 @@ class BookmarksPage extends StatelessWidget {
             onPressed: () => context.read<BookmarksCubit>().toggle(book.id),
             icon: const Icon(Icons.bookmark),
           ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (context) => BookDetailPage(id: markedBooks[index].id),
-              ),
-            );
-          },
+          onTap: () => context.router.push<void>(BookDetailRoute(id: book.id)),
         );
       },
     );

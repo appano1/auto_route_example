@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:test_app/book_detail/book_detail.dart';
 import 'package:test_app/bookmarks/bookmarks.dart';
+import 'package:test_app/routes.dart';
 
 class Book extends Equatable {
   const Book({
@@ -68,14 +70,7 @@ class BooksPage extends StatelessWidget {
               },
             ),
           ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (context) => BookDetailPage(id: book.id),
-              ),
-            );
-          },
+          onTap: () => context.router.push<void>(BookDetailRoute(id: book.id)),
         );
       },
     );
