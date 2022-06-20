@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/routes.dart';
 
+class MyBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('${bloc.runtimeType} $change');
+  }
+}
+
 void main() {
-  runApp(const App());
+  BlocOverrides.runZoned(
+    () => runApp(const App()),
+    blocObserver: MyBlocObserver(),
+  );
 }
 
 class App extends StatelessWidget {
