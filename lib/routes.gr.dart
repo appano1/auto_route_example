@@ -17,9 +17,17 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AuthWrapperRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const AuthWrapperPage());
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
+    },
+    LoginRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const LoginPage());
     },
     DashBoardRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -61,35 +69,59 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig(HomeRoute.name, path: '/', children: [
-          RouteConfig(DashBoardRoute.name,
+        RouteConfig(AuthWrapperRoute.name, path: '/', children: [
+          RouteConfig(HomeRoute.name,
               path: '',
-              parent: HomeRoute.name,
+              parent: AuthWrapperRoute.name,
               children: [
-                RouteConfig(BooksRoute.name,
-                    path: 'book', parent: DashBoardRoute.name),
-                RouteConfig(UsersRoute.name,
-                    path: 'user', parent: DashBoardRoute.name),
-                RouteConfig(BookmarksRoute.name,
-                    path: 'bookmarks', parent: DashBoardRoute.name),
-                RouteConfig(SettingsRoute.name,
-                    path: 'settings', parent: DashBoardRoute.name)
+                RouteConfig(DashBoardRoute.name,
+                    path: '',
+                    parent: HomeRoute.name,
+                    children: [
+                      RouteConfig(BooksRoute.name,
+                          path: 'book', parent: DashBoardRoute.name),
+                      RouteConfig(UsersRoute.name,
+                          path: 'user', parent: DashBoardRoute.name),
+                      RouteConfig(BookmarksRoute.name,
+                          path: 'bookmarks', parent: DashBoardRoute.name),
+                      RouteConfig(SettingsRoute.name,
+                          path: 'settings', parent: DashBoardRoute.name)
+                    ]),
+                RouteConfig(BookDetailRoute.name,
+                    path: 'book/:id', parent: HomeRoute.name),
+                RouteConfig(UserDetailRoute.name,
+                    path: 'user/:id', parent: HomeRoute.name)
               ]),
-          RouteConfig(BookDetailRoute.name,
-              path: 'book/:id', parent: HomeRoute.name),
-          RouteConfig(UserDetailRoute.name,
-              path: 'user/:id', parent: HomeRoute.name)
+          RouteConfig(LoginRoute.name,
+              path: 'login', parent: AuthWrapperRoute.name)
         ])
       ];
+}
+
+/// generated route for
+/// [AuthWrapperPage]
+class AuthWrapperRoute extends PageRouteInfo<void> {
+  const AuthWrapperRoute({List<PageRouteInfo>? children})
+      : super(AuthWrapperRoute.name, path: '/', initialChildren: children);
+
+  static const String name = 'AuthWrapperRoute';
 }
 
 /// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(HomeRoute.name, path: '/', initialChildren: children);
+      : super(HomeRoute.name, path: '', initialChildren: children);
 
   static const String name = 'HomeRoute';
+}
+
+/// generated route for
+/// [LoginPage]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute() : super(LoginRoute.name, path: 'login');
+
+  static const String name = 'LoginRoute';
 }
 
 /// generated route for

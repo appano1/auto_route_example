@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_app/auth/cubit/auth_cubit.dart';
 import 'package:test_app/routes.dart';
 
 class MyBlocObserver extends BlocObserver {
@@ -12,18 +14,23 @@ class MyBlocObserver extends BlocObserver {
 
 void main() {
   BlocOverrides.runZoned(
-    () => runApp(const App()),
+    () => runApp(
+      BlocProvider(
+        create: (context) => AuthCubit(),
+        child: App(),
+      ),
+    ),
     blocObserver: MyBlocObserver(),
   );
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  final router = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter();
-
     return MaterialApp.router(
       title: 'Auto Route Demo',
       theme: ThemeData(
@@ -32,8 +39,27 @@ class App extends StatelessWidget {
           iconColor: Colors.black,
         ),
       ),
-      routerDelegate: router.delegate(),
+      routerDelegate: router.delegate(
+        navigatorObservers: () => [MyRouterObserver()],
+      ),
       routeInformationParser: router.defaultRouteParser(),
     );
+  }
+}
+
+class MyRouterObserver extends AutoRouterObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    print('New route pushed: ${route.settings.name}');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    print('Tab route visited: ${route.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    print('Tab route re-visited: ${route.name}');
   }
 }
