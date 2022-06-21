@@ -6,9 +6,9 @@ import 'package:test_app/routes.dart';
 
 class MyBlocObserver extends BlocObserver {
   @override
-  void onChange(BlocBase bloc, Change change) {
+  void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    print('${bloc.runtimeType} $change');
+    debugPrint('${bloc.runtimeType} $change');
   }
 }
 
@@ -22,6 +22,23 @@ void main() {
     ),
     blocObserver: MyBlocObserver(),
   );
+}
+
+class MyRouterObserver extends AutoRouterObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    debugPrint('New route pushed: ${route.settings.name}');
+  }
+
+  @override
+  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
+    debugPrint('Tab route visited: ${route.name}');
+  }
+
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    debugPrint('Tab route re-visited: ${route.name}');
+  }
 }
 
 class App extends StatelessWidget {
@@ -44,22 +61,5 @@ class App extends StatelessWidget {
       ),
       routeInformationParser: router.defaultRouteParser(),
     );
-  }
-}
-
-class MyRouterObserver extends AutoRouterObserver {
-  @override
-  void didPush(Route route, Route? previousRoute) {
-    print('New route pushed: ${route.settings.name}');
-  }
-
-  @override
-  void didInitTabRoute(TabPageRoute route, TabPageRoute? previousRoute) {
-    print('Tab route visited: ${route.name}');
-  }
-
-  @override
-  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
-    print('Tab route re-visited: ${route.name}');
   }
 }

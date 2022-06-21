@@ -30,10 +30,4 @@ class BooksCubit extends Cubit<BooksState> {
             ],
           ),
         );
-
-  @override
-  Future<void> close() {
-    print('$runtimeType closed...');
-    return super.close();
-  }
 }
